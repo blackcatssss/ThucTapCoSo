@@ -1,0 +1,129 @@
+<style>
+    .header{
+        background-color: rgba(95, 158, 160, 0.692);
+        position: fixed;
+        width: 240px;
+        display: flex;
+        flex-direction: column;
+        bottom: 12px;
+        top: 12px;
+        left: 30px;
+        border-radius: 10px;
+        max-height: 700px;
+    }
+
+    .logo{
+        margin-top: 24px;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .logo .title{
+        display: flex;
+        justify-content: center;
+    }
+
+    .logo img{
+        border-radius: 50%;
+        width: 45%;
+    }
+
+    .menu{
+        margin-top: 12px;
+    }
+
+    .menu ul{
+        padding: 0;
+    }
+
+    .menu ul li{
+        cursor: pointer;
+        margin: 12px;
+        padding: 8px;
+        list-style: none;
+        border-radius: 5px;
+        background-color: rgba(122, 71, 23, 0.671);
+        box-shadow: 3px 4px 10px #000;
+    }
+
+    .menu a{
+        text-decoration: none;
+        font-size: 18px;
+        text-transform: uppercase;
+        color: #ffff;
+    }
+
+    .active-menu {
+        border-right: 3px solid goldenrod;
+    }
+    .user {
+        display: flex;
+        margin-top: 44px;
+        justify-content: center;
+        position: relative;
+    }
+    .user i {
+        font-size: 50px;
+    }
+    .user ul {
+        position: absolute;
+        display: none;
+        top: 30px; /* adjusted for better spacing */
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 0;
+    }
+    .user i:hover + ul,
+    .user ul:hover {
+        display: block;
+    }
+    .user ul li {
+            cursor: pointer;
+            margin: 12px;
+            padding: 8px;
+            list-style: none;
+            border-radius: 5px;
+            background-color: rgba(122, 71, 23, 0.671);
+            box-shadow: 3px 4px 10px #000;
+            width: 120px;
+    }
+    .user ul li a {
+        color: #fff;
+        text-decoration: none;
+    }
+    
+</style>
+<div class="header">
+    <div class="logo">
+        <img src="/assets/logo.png" alt="">
+        <div class="title">
+            <img src="/assets/title.png" alt="">
+        </div>
+    </div>
+    <div class="menu">
+        <ul>
+            <li>
+                <a href="/">Đặt món</a>
+            </li>
+            <li>
+                <a href="/manager-table">Trạng thái bàn</a>
+            </li>
+            <li>
+                <a href="/manager-menu">Quản lý kho</a>
+            </li>
+        </ul>
+    </div>
+</div>
+<script>
+    // JavaScript to add the "active-menu" class to the current menu item
+    const currentURL = window.location.pathname;
+    const menuItems = document.querySelectorAll('.menu a');
+
+    menuItems.forEach((menuItem) => {
+        if (menuItem.getAttribute('href') === currentURL) {
+            menuItem.parentNode.classList.add('active-menu');
+        }
+    });
+</script>

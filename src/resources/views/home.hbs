@@ -1,0 +1,436 @@
+<style>
+    .home-oder{
+        position: relative;
+        display: flex;
+        justify-content: space-around;
+        background-color: rgba(95, 158, 160, 0.692);
+        margin-left: 270px;
+        margin-top: 40px;
+        max-height: 670px;
+        height: 570px;
+        padding: 0;
+        border-top-left-radius: 25px ;
+        border-bottom-left-radius: 25px ;
+        
+    }
+
+    .list-items {
+        margin-top: 30px;
+        text-align: center;
+        border-radius: 10px;
+        box-shadow: 2px 3px 10px #838181;
+        background-color: rgba(238, 238, 238, 0.884);
+        display: flex;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+        list-style: none;
+        padding: 12px 0 12px 12px;
+        overflow: auto; /* Tạo thanh cuộn nếu danh sách vượt quá kích thước cha */
+        max-height: 84%;
+        width: 60%; /* Đặt chiều cao cố định cho danh sách */
+    }
+
+    .list-items::-webkit-scrollbar-thumb{
+        background: #00000069;
+        border-radius: 10px;
+    }
+
+    .list-items::-webkit-scrollbar{
+        width: 5px;
+    }
+
+    .list-items::-webkit-scrollbar-track{
+        border-radius: 10px;
+        border: 1px solid #ccc;
+    }
+
+    .item {
+        background-color: #ffff;
+        margin: 10px;
+        width: calc(33.33333% - 25px); /* Chiều rộng của mỗi mục là 50% với khoảng cách 10px giữa chúng */
+        box-sizing: border-box; /* Đảm bảo kích thước tính cả border và padding */
+        float: left; /* Cho phép các mục nằm cạnh nhau */
+        border-radius: 10px;
+        overflow: hidden;
+        height: 280px;
+        box-shadow: 4px 4px 10px #615f5f;
+    }
+
+    .item img {
+        width: 100%;
+        height: 60%; /* Duy trì tỷ lệ khung hình tự động */
+    }
+
+    .item .decrip{
+        height: 40%;
+    }
+
+    .item .decrip h4{
+        height: 33px;
+        margin: 4px 0 0 0;
+        padding: 0;
+    }
+
+    .item .decrip p{
+        margin: 4px 0;
+        padding: 0;
+    }
+
+    .item .decrip button{
+        margin: 4px 0;
+        padding: 8px 20px;
+        border: none;
+        border-radius: 5px;
+        background-color: rgba(122, 71, 23, 0.671);
+        color: #fff;
+    } 
+
+    .item .decrip button:hover{
+        cursor: pointer;
+    }  
+
+    .list-oder{
+        position: relative;
+        padding: 12px 0;
+        margin-top: 30px;
+        width: 35%;
+        max-height: 84%;
+        border-radius: 10px;
+        box-shadow: 2px 3px 10px #838181;
+        background-color: rgba(170, 170, 170, 0.856);
+    }
+
+    .header-oder{
+        padding-left: 12px;
+        border-radius: 10px;
+        background-color: #fff;
+        margin: 0 8px;
+        display: grid;
+        grid-template-columns: 50% 25% 25%;
+        text-align: left;
+        color: rgb(100, 12, 12);
+    }
+
+    .header-oder p{
+        font-size: 18px;
+    }
+
+    .number-oder {
+        display: flex;
+    }
+
+    .number-oder select{
+        margin-left: 8px;
+        padding: 0 12px;
+        border: none;
+        color: #000;
+        background: none;
+        border-bottom: 1px solid #000;
+        font-size: 16px;
+        height: 30px;
+        margin-top: 12px;
+    }
+
+    .main-order {
+        margin: 8px;
+        width: auto;
+        border-collapse: collapse;
+        max-height: 300px; /* Đặt chiều cao tối đa cho bảng */
+        overflow: auto;
+    }
+
+    .main-order::-webkit-scrollbar-thumb{
+        background: #00000069;
+        border-radius: 10px;
+    }
+
+    .main-order::-webkit-scrollbar{
+        width: 5px;
+    }
+
+    .main-order::-webkit-scrollbar-track{
+        border-radius: 10px;
+        border: 1px solid #ccc;
+    }
+
+    .main-order table{
+        width: 100%;
+    }
+
+    .main-order th {
+        border-radius: 5px;
+        border-bottom: 1px solid black;
+        padding: 8px 0;
+        text-align: center;
+
+    }
+
+    .main-order td {
+        text-shadow: 3px 4px 5px #000;
+        color: #fff;
+        font-size: 14px;
+        text-align: center;
+        border-bottom: 1px solid black;
+
+    }
+
+    .main-order i{
+        text-shadow: 0px 0px 0px #000;
+        color: #000;
+        box-shadow: none;
+    }
+
+    .main-order th {
+        background-color: rgba(243, 243, 243, 0.493);
+    }
+
+    .main-order th:nth-child(1) {
+        width: 60%; /* Độ rộng mặc định cho cột "Tên món" */
+    }
+
+    .main-order th:nth-child(2), .main-order th:nth-child(3) {
+        width: 20%; /* Độ rộng mặc định cho cột "SL" và cột "Giá" */
+    }
+
+    .main-order .remove-button{
+        cursor: pointer;
+    }
+
+
+    .main-order .footer-order{
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        
+    }
+
+    .main-order .total-order{
+        display: flex;
+        flex-direction: row;
+        text-align: center;
+    }
+
+    .main-order .total-order h4 +h4{
+        
+        margin-left: 40px;
+    }
+
+
+    .operation{
+        display: flex;
+        justify-content: space-around;
+        margin-bottom: 18px;
+    }
+
+    .operation button{
+        border-radius: 5px;
+        box-shadow: 4px 3px 8px #000;
+        padding: 8px 18px;
+        border: none;
+        color: #fff;
+        background-color: #a7815e;
+        cursor: pointer;
+    }
+
+    #toast {
+        visibility: hidden;
+        min-width: 200px;
+        margin-left: -125px;
+        background: rgba(255, 165, 0, 0.4);
+	    border-color: rgb(255, 165, 0);
+        color: #fff;
+        border-radius: 15px;
+        text-align: center;
+        border-radius: 2px;
+        padding: 10px 3px;
+        position: fixed;
+        z-index: 1;
+        left: 87%;
+        top: 50%;
+        font-size: 17px;
+        border-left: 1px #a7815e solid;
+        border-bottom: 1px #a7815e solid;
+
+    }
+
+    #toast.show {
+        visibility: visible;
+    }
+
+</style>
+<div>
+    <div class="home-oder">
+        <ul style="overflow:auto;" class="list-items">
+            {{#each products}}
+                <li class="item">
+                    <img src="{{this.codeImg}}" alt="">
+                    <div class="decrip">
+                        <h4>{{this.name}}</h4>
+                        <p>{{this.price}} đ</p>
+                        <button data-id="{{this._id}}" class="order-button">Đặt</button>
+                    </div>
+                </li>
+            {{/each}}
+        </ul>
+        <div class="list-oder">
+            <div class="header-oder">
+                <p>New oder</p>
+                <div class="number-oder">
+                    <p>Bàn:</p>
+                    <select name="" id="">
+                        {{#if tables}}
+                            {{#each tables}}
+                                <option style="color: #615f5f;" value="{{this._id}}">Bàn {{this.name}}</option>
+                            {{/each}}
+                        {{else}}
+                            <option style="color: #615f5f;" value="{{this._id}}">Đã đầy</option>
+                        {{/if}}
+                    </select>
+                </div>
+            </div>
+            <div class="main-order">
+                <table>
+                    <tr>
+                        <th>Tên món</th>
+                        <th>SL</th>
+                        <th>Giá</th>
+                        <th style="opacity: 0;"><i class="fas fa-trash"></i></th>
+                    </tr>
+                </table>
+                <div class="footer-order">
+                    <div class="total-order">
+                        <h4 style="width: 50%;">Tổng cộng: </h4>
+                        <h4 style="width: 50%;" class="total-price">0 đ</h4>
+                    </div>
+                    <div class="operation">
+                        <button class="delete-all">Xóa tất cả</button>
+                        <button  class="acept-order">Báo cáo chế biến</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <form id="orderForm" action="home/save-order" method="POST">
+        <!-- Các trường form -->
+        <input type="hidden" name="foodIds" id="foodIdsField">
+        <input type="hidden" name="tableId" id="tableId">
+        <input type="hidden" name="total" id="totalId">
+    </form>
+
+    <div id="toast"></div>
+
+</div>
+<script>
+    const orderButtons = document.querySelectorAll('.order-button');
+    const tableSelect = document.querySelector('select');
+    const tableOder = document.querySelector('.main-order table');
+    const totalPrice = document.querySelector('.main-order .total-price');
+    const deleteAll = document.querySelector('.delete-all');
+    const aceptOrder = document.querySelector('.acept-order');
+    
+    let total = 0;
+
+    deleteAll.addEventListener('click',()=>{
+        tableOder.innerHTML=`
+            <tr>
+                <th>Tên món</th>
+                <th>SL</th>
+                <th>Giá</th>
+                <th style="opacity: 0; padding-left: 3px;"><i class="fas fa-trash"></i></th>
+            </tr>
+        `
+    })
+
+
+    aceptOrder.addEventListener('click', () => {
+        const rows = tableOder.querySelectorAll('tr');
+        const foodIds = [];
+        const nameTable = tableSelect.value
+
+        rows.forEach(row => {
+            const foodId = row.dataset.id;
+            if (foodId) {
+                foodIds.push(foodId);
+            }
+        });
+
+         // Lấy đối tượng form và trường input chứa dữ liệu foodIds
+        const orderForm = document.getElementById('orderForm');
+        const foodIdsField = document.getElementById('foodIdsField');
+        const tableId = document.getElementById('tableId');
+        const totalBill = document.getElementById('totalId');
+
+        // Đặt giá trị của trường input foodIds bằng chuỗi JSON của mảng foodIds
+        foodIdsField.value = JSON.stringify(foodIds);
+        tableId.value = nameTable
+        totalBill.value = total
+
+        if(!nameTable){
+            showToast("Hiện tại không có bàn trống")
+        }else{
+            if(total){
+                orderForm.submit();
+            }else{
+                showToast("Vui lòng đặt món")
+            }
+        }
+    });
+
+    orderButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const id = button.dataset.id
+            const productName = button.parentElement.querySelector('h4').textContent;
+            const productPrice = button.parentElement.querySelector('p').textContent;
+            const numericString = productPrice.replace("đ", "");
+
+            // Bước 2: Chuyển đổi chuỗi thành số
+            const priceNumber = parseInt(numericString) * 1000;
+
+            // Tính tổng giá trị
+            
+            total += priceNumber;
+            var formattedBillPay = total.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+
+            totalPrice.innerHTML = formattedBillPay;
+
+            // Cập nhật hiển thị tổng giá trị
+            //totalPrice.innerHTML = total + " VND";
+
+            // Lấy giá trị của bàn được chọn
+            const selectedTable = tableSelect.value;
+
+            // Tạo một dòng mới trong bảng đặt hàng
+            const newRow = document.createElement('tr');
+            newRow.dataset.id = id;
+            newRow.innerHTML = `
+                <td>${productName}</td>
+                <td>1</td>
+                <td>${productPrice}</td>
+                <td class="remove-button"><i class="fas fa-trash"></i></td>
+            `;
+
+            // Thêm dòng mới vào bảng đặt hàng
+            tableOder.appendChild(newRow);
+            console.log(newRow)
+
+            // Xử lý sự kiện khi nút xóa được nhấn
+            const removeButton = newRow.querySelector('.remove-button');
+            removeButton.addEventListener('click', () => {
+                console.log(newRow)
+                newRow.remove();
+                total -= priceNumber; // Trừ giá trị sản phẩm bị xóa khỏi tổng giá trị
+                totalPrice.innerHTML = total + " đ"; // Cập nhật hiển thị tổng giá trị
+            });
+        });
+    });
+
+    function showToast(message) {
+        var toast = document.getElementById("toast");
+        toast.innerHTML = message;
+        toast.className = "show";
+        setTimeout(function () {
+            toast.className = toast.className.replace("show", "");
+        }, 3000); // Hiển thị Toast trong 3 giây
+    }
+
+</script>

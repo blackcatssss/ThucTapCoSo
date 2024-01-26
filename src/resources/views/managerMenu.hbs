@@ -1,0 +1,821 @@
+<style>
+    .home-oder {
+        display: flex;
+        position: relative;
+        justify-content: space-between;
+        background-color: rgba(95, 158, 160, 0.692);
+        margin-left: 270px;
+        margin-top: 40px;
+        max-height: 670px;
+        height: 570px;
+        padding: 0;
+        border-radius: 25px;
+        overflow: hidden;
+    }
+
+    .left-content,
+    .right-content {
+        width: 50%;
+        margin: 0 10px;
+    }
+
+
+    .list-items, .list-table {
+        text-align: center;
+        border-radius: 10px;
+        box-shadow: 2px 3px 10px #838181;
+        background-color: rgba(238, 238, 238, 0.884);
+        display: flex;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+        list-style: none;
+        padding: 12px 0 12px 12px;
+        overflow: auto; /* Tạo thanh cuộn nếu danh sách vượt quá kích thước cha */
+        max-height: 84%;
+    }
+
+    .list-items::-webkit-scrollbar-thumb, .list-table::-webkit-scrollbar-thumb {
+        background: #00000069;
+        border-radius: 10px;
+    }
+
+    .list-items::-webkit-scrollbar, .list-table::-webkit-scrollbar {
+        width: 5px;
+    }
+
+    .list-items::-webkit-scrollbar-track, .list-table::-webkit-scrollbar-track {
+        border-radius: 10px;
+        border: 1px solid #757575;
+    }
+
+    .item, .list-table li {
+        margin: 10px;
+        width: calc(33.3333% - 20px); /* Chiều rộng của mỗi mục là 50% với khoảng cách 10px giữa chúng */
+        box-sizing: border-box; /* Đảm bảo kích thước tính cả border và padding */
+        float: left; /* Cho phép các mục nằm cạnh nhau */
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 4px 4px 10px #615f5f;
+    }
+
+    .item {
+        background-color: #ffff;
+        height: 240px;
+    }
+
+    .item>img {
+        width: 100%;
+        height: 50%; /* Duy trì tỷ lệ khung hình tự động */
+    }
+
+    .item .decrip {
+        height: 40%;
+    }
+
+    .item .decrip h4 {
+        height: 33px;
+        margin: 4px;
+        padding: 0;
+        overflow: hidden;
+    }
+
+    .item .decrip p {
+        font-style: italic;
+        margin: 4px 0;
+        padding: 0;
+        font-size: 15px;
+
+    }
+
+    .item .decrip button {
+        margin: 4px 0;
+        padding: 8px 20px;
+        border: none;
+        border-radius: 5px;
+        background-color: rgba(122, 71, 23, 0.671);
+        color: #fff;
+    }
+
+    .item .decrip button:hover {
+        cursor: pointer;
+    }
+
+    .list-oder {
+        position: relative;
+        padding: 12px 0;
+        margin-top: 30px;
+        width: 35%;
+        max-height: 84%;
+        border-radius: 10px;
+        box-shadow: 2px 3px 10px #838181;
+        background-color: rgba(170, 170, 170, 0.856);
+    }
+
+    .list-table .show-table {
+        padding: 8px 12px;
+        border: none;
+        cursor: pointer;
+        border-radius: 10px;
+    }
+
+    .list-table .edit-table:hover,
+    .list-table .delete-table:hover{
+        cursor: pointer;
+    }
+
+    .list-table button{
+        border: none;
+        border-radius: 5px;
+        margin-bottom: 4px;
+        padding: 4px 0;
+    }
+
+    .list-table li {
+        cursor: pointer;
+        width: calc(100% / 4 - 25px); /* Chiều rộng của mỗi mục là 50% với khoảng cách 10px giữa chúng */
+        height: 140px;
+        box-shadow: 4px 4px 10px #8b8a8a;
+        background-color: #57c999;
+    }
+    .title-p{
+        font-style: italic;
+        text-decoration: underline;
+        opacity: .8;
+        margin-left: 12px;
+    }
+    .header-manager {
+        display: flex;
+        align-items: center;
+        height: 25px;
+        padding-top: 8px;
+        justify-content: space-between;
+    }
+
+    .header-manager input {
+        padding: 4px;
+        border: none;
+        border-top-left-radius: 10px;
+        border-bottom-left-radius: 10px;
+    }
+
+    .header-manager .fa-search {
+        padding: 4px;
+        border: none;
+        background-color: #fff;
+        border-bottom-right-radius: 10px;
+        border-top-right-radius: 10px;
+        margin: 0;
+        cursor: pointer;
+    }
+
+    .option-action {
+        display: none;
+        position: absolute;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        z-index: 1;
+        width: 100px; 
+        top: 5%;
+        padding: 0 6px;
+    }
+
+    .add-menu{
+        margin-right: 12px;
+        cursor: pointer;
+    }
+
+    .add-menu:hover + .option-action,
+    .option-action:hover {
+        display: block;
+    }
+
+    /* Optional styling for the links inside option-action */
+    .option-action li {
+        background-color: #fff;
+        border-radius: 5px;
+        list-style: none;
+        margin-bottom: 4px;
+        width: auto;
+        cursor: pointer;
+    }
+
+    .option-action li p{
+        color: #333;
+        font-size: 14px;
+        padding: 4px ;
+    }
+
+    .option-action li p:hover {
+        color: #007bff;
+    }
+
+    .div-create-form, 
+    .div-create-form-table,
+    .div-edit-form {
+        display: none;
+        position: fixed;
+        top: 40%;
+        transform: translate(-50%, -50%);
+        left: 50%;
+        width: 100%;
+        height: 100%;
+        padding: 24px;
+        background-color: rgba(26, 25, 25, 0.582);
+        border-radius: 10px;
+        z-index: 9999;
+    }
+
+    #create-form,
+    #create-form-table,
+    #edit-form {
+        display: flex;
+        transform: translate(100%, 50%);
+        justify-content: center;
+        flex-direction: column;
+        width: 30%;
+        padding: 24px;
+        background-color: #fff;
+        border-radius: 10px;
+    }
+
+    #create-form .close-create-form,
+    #create-form-table .close-create-form,
+    #edit-form .close-form {
+        cursor: pointer;
+        margin: 0;
+        padding: 0;
+        text-align: right;
+    }
+
+    #create-form h3,
+    #create-form-table h3,
+    #edit-form h3 {
+        text-align: center;
+        margin-bottom: 10px;
+        font-style: italic;
+    }
+
+    #create-form label,
+    #create-form-table label,
+    #edit-form label {
+        margin-top: 10px;
+        margin-bottom: 2px;
+        font-weight: 550;
+    }
+
+    #create-form input,
+    #create-form-table input,
+    #edit-form input {
+        margin-bottom: 20px;
+        padding: 8px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+    }
+
+    #create-form button,
+    #create-form-table button,
+    #edit-form button {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        background-color: rgba(122, 71, 23, 0.671);
+        color: white;
+        cursor: pointer;
+        width: 30%;
+        float: left;
+    }
+
+    #create-form button:hover,
+    #create-form-table button:hover,
+    #edit-form button:hover {
+        background-color: rgba(122, 71, 23, 0.671);
+    }
+
+
+    .custom-swal-container{
+        z-index: 99999;
+        font-size: 12px;
+    }
+    .custom-swal-popup{
+        max-width: 300px;
+        font-size: 12px;
+    }
+    .custom-swal-confirm-button{
+        border-radius: 8px;
+    }
+
+    #toast {
+        visibility: hidden;
+        min-width: 200px;
+        margin-left: -125px;
+        background: rgba(255, 165, 0, 0.4);
+	    border-color: rgb(255, 165, 0);
+        color: #fff;
+        border-radius: 15px;
+        text-align: center;
+        border-radius: 2px;
+        padding: 10px 3px;
+        position: fixed;
+        z-index: 1;
+        left: 90%;
+        bottom: 50px;
+        font-size: 17px;
+        border-left: 1px #a7815e solid;
+        border-bottom: 1px #a7815e solid;
+
+    }
+
+    #toast.show {
+        visibility: visible;
+    }
+</style>
+<div>
+    <div id="toast"></div>
+    <div class="home-oder">
+        <div class="left-content" style="margin-left:12px;">
+            <div class="header-manager" style="">
+                <h4 class="title-p">Quản lý thực đơn của quán</h4>
+                <div style="display: flex; margin-right: 12px; ">
+                    <input class="btn-search" type="text" name="" id="" placeholder="Tìm kiếm...">
+                    <i class="fas fa-search"></i>
+                </div>
+            </div>
+            <ul style="overflow:auto;" class="list-items">
+                {{#each products}}
+                    <li class="item">
+                        <img src="{{this.codeImg}}" alt="">
+                        <div class="decrip">
+                            <h4>{{this.name}}</h4>
+                            <p>{{this.price}} đ</p>
+                            <button data-id="{{this._id}}" data-name="{{this.name}}" data-price="{{this.price}}" class="edit-button">Sửa</button>
+                        </div>
+                    </li>
+                {{/each}}
+            </ul>
+        </div>
+        <div class="right-content" style="margin-right: 12px; position:relative;">
+            <div class="header-manager">
+                <h4 class="title-p">Quản lý bàn ăn của quán</h4>
+                <h4 class="menu-action">
+                    <p class="add-menu"><i class="fas fa-plus-circle"></i> Nhập kho</p>
+                    <div class="option-action">
+                        <li class="create-menu"><p>Thêm món ăn</p></li>
+                        <li class="create-table" onclick= "createTable()"><p>Thêm bàn ăn</p></li>
+                    </div>
+                </h4>
+            </div>
+            <ul class="list-table">
+                {{#each tables}}
+                    <li>
+                        <h3 contenteditable="false">
+                            {{this.name}}
+                        </h3>
+                        <button class="show-table" data-name="{{this.name}}" data-table="{{this._id}}" onclick="showActions(this)">Thao tác</button>
+                        
+                        <div style="display: flex; flex-direction: column;">
+                            <button class="edit-table" style="display: none;" data-table="{{this._id}}" onclick="saveEdit(this)">Lưu</button>
+                            <button class="delete-table" style="display: none;" data-table="{{this._id}}" data-status="{{this.status}}" onclick="deleteTable(this)">Xóa</button>
+                        </div>
+                    </li>
+                {{/each}}
+            </ul>
+        </div>
+
+        {{!-- edit form --}}
+        <div class="div-edit-form">
+            <form  id="edit-form" action="">
+                <p class="close-form"><i class="fas fa-times"></i></p>
+                <h3>Điền thông tin cần sửa</h3>
+                <label for="">Tên món ăn:</label>
+                <input type="text" value="" id="name" name="name" required>
+                <label for="">Giá:</label>
+                <input type="text" value="" id="price" name="price" onkeyup= myFunction() required>
+                <div style="display: flex; flex-direction:row; justify-content:space-around;">
+                    <button id="submit-edit">Sửa</button>
+                    <button id="delete-product">Xóa</button>
+                </div>
+            </form>
+        </div>
+
+        {{!-- xóa --}}
+        <form id="delete-form" action="" method="POST"></form>
+
+        {{!--create form  --}}
+        <div class="div-create-form">
+            <form  id="create-form" action="" method="POST" enctype="multipart/form-data">
+                <p class="close-create-form"><i class="fas fa-times"></i></p>
+                <h3>Điền thông tin</h3>
+                <input type="file" name="img" id="img" onfocus=validate(this)> 
+                <label for="">Tên món ăn:</label>
+                <input type="text" value="" id="name" name="name" required onfocus=validate(this)>
+                <label for="">Giá:</label>
+                <input type="text" value="" id="price" name="price" onkeyup= myFunction() onfocus=validate(this) required>
+                <h5 class="mess" style="color: red; display:none;">Vui lòng tải ảnh lên</h5>
+                <button id="submit-create">Tạo</button>
+            </form>
+        </div>
+
+        <div class="div-create-form-table">
+            <form  id="create-form-table" action="" method="POST">
+                <p class="close-create-form" onclick="closeCreateTableForm()"><i class="fas fa-times"></i></p>
+                <h3>Điền thông tin</h3> 
+                <label for="">Tên bàn:</label>
+                <input type="text" value="" id="name" name="name" tabindex="1" required onfocus=validate(this)>
+                <button id="submit-create" onclick="submitCreateTable(this)">Tạo</button>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    const validate = function(e){
+        e.style.border = '1px solid gray'
+    }
+
+    document.addEventListener('click', function (event) {
+        var divEditForm = document.querySelector('.div-edit-form');
+        var divCreateForm = document.querySelector('.div-create-form');
+        var divCreateTableForm = document.querySelector('.div-create-form-table');
+
+        if (event.target == divEditForm) {
+            divEditForm.style.display = 'none';
+        }
+
+        if (event.target == divCreateTableForm) {
+            divCreateTableForm.style.display = 'none';
+        }
+
+        if (event.target == divCreateForm) {
+            divCreateForm.style.display = 'none';
+        }
+    });
+
+    function myFunction() {
+        var xs = document.querySelectorAll("#price");
+        xs.forEach(x=>{
+            if (x.value) {
+                var num = parseFloat(x.value.replace(/[^\d]/g, ''));
+                if (!isNaN(num)) {
+                    x.value = num.toLocaleString('vi-VN');
+                }
+            }
+        })
+    }
+
+    var xs = document.querySelectorAll("#price");
+    xs.forEach(priceInput => {
+        priceInput.addEventListener('input', function () {
+            let priceValue = priceInput.value;
+            priceValue = priceValue.replace(/[^0-9]/g, '');
+            priceInput.value = priceValue;
+        });
+    });
+
+
+
+    document.addEventListener('DOMContentLoaded',function(){
+
+        //sửa
+        const editBtns = document.querySelectorAll(".edit-button")
+        const divEditForm = document.querySelector('.div-edit-form')
+        const nameValue = document.querySelector('#edit-form #name')
+        const priceValue = document.querySelector('#edit-form #price')
+        var idProduct;
+        const closeBtn = document.querySelector('.close-form')
+
+        // sự kiện nhấn nút "Sửa"
+        editBtns.forEach(bt => {
+            bt.addEventListener('click', (e) => {
+                idProduct = e.target.dataset.id;
+                const nameProduct = e.target.dataset.name;
+                const priceProduct = e.target.dataset.price;
+
+                divEditForm.style.display = "block";
+
+                nameValue.value = nameProduct;
+                priceValue.value = priceProduct;
+            });
+        });
+
+        // sự kiện nhấn nút "Đóng"
+        closeBtn.addEventListener('click', () => {
+            divEditForm.style.display = "none";
+        });
+
+
+        //hành động sửa
+        const editChange = document.querySelector('#submit-edit');
+        const editForm = document.querySelector('#edit-form');
+
+        editChange.addEventListener('click', function (event) {
+            event.preventDefault(); // Ngăn chặn việc gửi form theo cách mặc định
+            editForm.setAttribute('method', 'POST'); // Thiết lập phương thức là POST
+            editForm.setAttribute('action', '/manager-menu/edit/' + idProduct + '?_method=PUT'); // Thiết lập action của form
+            if (nameValue.value && priceValue.value) {
+                editForm.submit(); // Gửi form một cách thủ công
+            }
+        });
+
+        //xóa món ăn
+        const deleteBtn = document.querySelector('#delete-product');
+        const deleteForm = document.querySelector('#delete-form');
+
+        deleteBtn.onclick = (e) => {
+            editForm.style.display = 'none';
+            e.preventDefault();
+
+            Swal.fire({
+                title: 'Bạn có chắc muốn xóa không?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Xóa',
+                cancelButtonText: 'Hủy bỏ',
+                customClass: {
+                    container: 'custom-swal-container', // Thêm một lớp CSS tùy chỉnh
+                    popup: 'custom-swal-popup',
+                    confirmButton: 'custom-swal-confirm-button',
+                },
+            }).then((result) => {
+                // Hiển thị lại form sau khi alert đã được đóng
+                editForm.style.display = 'flex';
+
+                if (result.isConfirmed) {
+                    // Thực hiện xóa nếu người dùng chấp nhận
+                    deleteForm.action = "/manager-menu/" + idProduct + "?_method=POST";
+                    deleteForm.submit();
+                }
+            });
+        };
+
+
+
+        //search
+        var productsOne = [];
+        var items = document.querySelectorAll('.list-items .item');
+        items.forEach(function(item) {
+            var product = {};
+            var rl = item.querySelector('img').src.split('/');
+            const code  = rl[3] +"/"+ rl[rl.length-1]
+            product.code = code
+            product.name = item.querySelector('.decrip h4').textContent;
+            product.price = item.querySelector('.decrip p').textContent;
+            product._id = item.querySelector('.edit-button').dataset.id;
+            productsOne.push(product);
+        });
+
+        const removeDiacritics = function(str) {
+            return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+        };
+
+
+        const listItems = document.querySelector('.list-items');
+        const btnSearch = document.querySelector('.fa-search');
+        const inputSearch = document.querySelector('.btn-search'); // Thêm đối tượng input
+
+        btnSearch.addEventListener('click', searchHandler);
+        inputSearch.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                searchHandler();
+            }
+        });
+
+        function searchHandler() {
+            const searchValue = inputSearch.value;
+            if (searchValue) {
+                const productFilter = productsOne.filter(p => removeDiacritics(p.name).includes(removeDiacritics(searchValue)));
+                
+                Search(productFilter)
+            } else {
+                Search(productsOne);
+            }
+        }
+
+        const Search = function (products) {
+            console.log(products)
+            listItems.innerHTML = "";
+            if(products.length){
+                products.forEach(p => {
+                    const liChild = document.createElement('li');
+                    liChild.classList.add("item");
+                    liChild.innerHTML = `
+                        <img src="${p.code}" alt="">
+                        <div class="decrip">
+                            <h4>${p.name}</h4>
+                            <p>${p.price}</p>
+                            <button data-id="${p._id}" class="edit-button">Sửa</button>
+                        </div>
+                    `;
+                    listItems.appendChild(liChild);
+                });
+            }else{
+                listItems.innerHTML = `<p style="display: contents;">Không tìm thấy kết quả phù hợp</p>`;
+            }
+        };
+
+
+
+
+        //create-menu
+        const closeBtnCreate = document.querySelector('.close-create-form')
+        const createMenuBtn = document.querySelector('.create-menu')
+        const divCreateForm = document.querySelector('.div-create-form')
+        const createForm = document.querySelector('#create-form')
+        const submitBtnCreate = createForm.querySelector('#submit-create')
+        const inputFile = document.getElementById('img');
+
+
+        console.log(submitBtnCreate,inputFile.value)
+        createMenuBtn.addEventListener('click',()=>{
+            divCreateForm.style.display = "block"
+        })
+
+        closeBtnCreate.addEventListener('click',()=>{
+            divCreateForm.style.display= "none"
+        })
+
+
+        // Sự kiện kiểm tra tệp khi tải lên
+        // Tạo biến để theo dõi trạng thái của tệp tải lên
+        let isFileValid = false;
+
+        // Sự kiện kiểm tra tệp khi tải lên
+        inputFile.addEventListener('change', function () {
+            const filePath = inputFile.value;
+            const allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+            if (!allowedExtensions.exec(filePath)) {
+                alert('Vui lòng tải lên tệp hình ảnh');
+                inputFile.value = '';
+                isFileValid = false;
+            } else {
+                isFileValid = true;
+            }
+        });
+
+
+        // Hành động tạo sản phẩm
+        submitBtnCreate.addEventListener('click', function (e) {
+            e.preventDefault();
+
+            const nameFood = document.querySelector('#create-form #name');
+            const priceFood = document.querySelector('#create-form #price');
+
+            if (isFileValid) {
+                if ( nameFood.value && priceFood.value) {
+                    createForm.action = "/manager-menu/create-product" + "?_medthod=POST";
+                    createForm.submit();
+                }else{
+                    if(!nameFood.value && priceFood.value){
+                        nameFood.style.border = '1px solid red'
+                    }else{
+                        if(!priceFood.value && nameFood.value){
+                            priceFood.style.border = '1px solid red'
+                        }
+                    }
+                }
+            }else{
+                inputFile.style.border = '1px solid red'
+            }
+        });
+    })
+
+    //Table
+
+    function showActions(button) {
+        var listItem = button.closest('li');
+        var editButton = listItem.querySelector('.edit-table');
+        var deleteButton = listItem.querySelector('.delete-table');
+        var h3Element = listItem.querySelector('h3');
+
+        // Hiển thị nút "Lưu" và "Xóa" cho mục đang được chọn
+        editButton.style.display = 'block';
+        deleteButton.style.display = 'block';
+
+        // Ẩn nút "Thao tác" khi nút "Sửa" được nhấp
+        button.style.display = 'none';
+
+        // Kích hoạt chế độ chỉnh sửa và đặt focus vào h3
+        h3Element.setAttribute('contenteditable', 'true');
+        h3Element.focus();
+    }
+
+    function hideAllEditButtons() {
+        var editButtons = document.querySelectorAll('.edit-table');
+        var deleteButtons = document.querySelectorAll('.delete-table');
+        var showButtons = document.querySelectorAll('.show-table');
+
+        editButtons.forEach(function (button) {
+            button.style.display = 'none';
+        });
+        deleteButtons.forEach(function (button) {
+            button.style.display = 'none';
+        });
+
+        showButtons.forEach(function (button) {
+            button.style.display = 'inline-block';
+        });
+
+    }
+
+    function saveEdit(button) {
+        var listItem = button.closest('li');
+        var editedName = listItem.querySelector('h3').textContent;
+        var idTable = button.dataset.table;
+
+        const editTableForm = document.createElement('form');
+        editTableForm.method = 'POST';
+        editTableForm.action = '/manager-menu/table/edit/'+idTable;
+        const submitForm = document.createElement('input');
+        const nameTableForm = document.createElement('input');
+        nameTableForm.value = editedName;
+        nameTableForm.style.display ='none';
+        nameTableForm.setAttribute('name', 'name');
+        submitForm.type = 'submit';
+        submitForm.style.display= 'none';
+        document.body.appendChild(editTableForm);
+        editTableForm.appendChild(submitForm);
+        editTableForm.appendChild(nameTableForm);
+        submitForm.click();
+        document.body.removeChild(editTableForm);
+
+        // Ẩn nút "Lưu" và hiển thị nút "Thao tác"
+        hideAllEditButtons();
+        listItem.querySelector('.show-table').style.display = 'inline-block';
+
+        // Tắt chế độ chỉnh sửa trên h3
+        listItem.querySelector('h3').removeAttribute('contenteditable');
+    }
+
+    function deleteTable(button) {
+        var idTable = button.dataset.table;
+        const statusTable = button.dataset.status;
+                    console.log(statusTable)
+        Swal.fire({
+                title: 'Bạn có chắc muốn xóa không?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Xóa',
+                cancelButtonText: 'Hủy bỏ',
+                customClass: {
+                    container: 'custom-swal-container', // Thêm một lớp CSS tùy chỉnh
+                    popup: 'custom-swal-popup',
+                    confirmButton: 'custom-swal-confirm-button',
+                },
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const delTableForm = document.createElement('form');
+                    delTableForm.method = 'POST'; // Use POST method (you can also use DELETE method)
+                    delTableForm.action = "/manager-menu/table/" + idTable + '?_method=DELETE'; // Include the DELETE method parameter
+
+                    // Create an input element to mimic the behavior of submitting a form with a button
+                    const submitButton = document.createElement('input');
+                    submitButton.type = 'submit';
+                    submitButton.style.display = 'none'; 
+
+                    // Append the form and the input to the document body
+                    document.body.appendChild(delTableForm);
+                    delTableForm.appendChild(submitButton);
+
+                    if(!statusTable){
+                        console.log('ok')
+                        submitButton.click();
+                    }else{
+                        showToast("Bàn đang có người ngồi")
+                    }
+
+                    // Remove the form and the input from the document body after submission
+                    document.body.removeChild(delTableForm);
+                }
+            });
+    }
+
+    const createFormTable = document.querySelector('#create-form-table');
+    const divCreateTableForm = document.querySelector('.div-create-form-table')
+    console.log(createFormTable)
+    function createTable(){
+        divCreateTableForm.style.display='block'
+    }
+
+    function closeCreateTableForm(){
+        divCreateTableForm.style.display='none'
+    }
+
+    function submitCreateTable(e){
+        const nameTable = createFormTable.querySelector('#name');
+        if(nameTable.value){
+            createFormTable.action = 'manager-menu/table-create'
+            createFormTable.submit();
+        }
+    }
+
+    function showToast(message) {
+        var toast = document.getElementById("toast");
+        toast.innerHTML = message;
+        toast.className = "show";
+        setTimeout(function () {
+            toast.className = toast.className.replace("show", "");
+        }, 3000); // Hiển thị Toast trong 3 giây
+    }
+
+</script>

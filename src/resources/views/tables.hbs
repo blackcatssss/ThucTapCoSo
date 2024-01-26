@@ -1,0 +1,338 @@
+<style>
+    .home-oder{
+        position: relative;
+        display: flex;
+        justify-content: space-around;
+        background-color: rgba(95, 158, 160, 0.692);
+        margin-left: 270px;
+        margin-top: 40px;
+        max-height: 670px;
+        height: 570px;
+        padding: 0;
+        border-top-left-radius: 25px ;
+        border-bottom-left-radius: 25px ;
+        
+    }
+
+    .home-oder .list-table{
+        margin-top: 30px;
+        text-align: center;
+        border-radius: 10px;
+        box-shadow: 2px 3px 10px #838181;
+        background-color: rgba(238, 238, 238, 0.884);
+        display: flex;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+        list-style: none;
+        padding: 12px 0 12px 12px;
+        overflow: auto; /* Tạo thanh cuộn nếu danh sách vượt quá kích thước cha */
+        max-height: 84%;
+        width: 60%;
+    }
+
+    .list-table .show-food{
+        padding: 8px 12px;
+        border: none;
+        cursor: pointer;
+        border-radius: 10px;
+    }
+
+    .list-table::-webkit-scrollbar-thumb{
+        background: #00000069;
+        border-radius: 10px;
+    }
+
+    .list-table::-webkit-scrollbar{
+        width: 5px;
+    }
+
+    .list-table::-webkit-scrollbar-track{
+        border-radius: 10px;
+        border: 1px solid #757575;
+    }
+
+
+    .list-table li{
+        margin: 10px;
+        cursor: pointer;
+        width: calc(100%/4 - 25px); /* Chiều rộng của mỗi mục là 50% với khoảng cách 10px giữa chúng */
+        box-sizing: border-box; /* Đảm bảo kích thước tính cả border và padding */
+        float: left; /* Cho phép các mục nằm cạnh nhau */
+        border-radius: 10px;
+        overflow: hidden;
+        height: 140px;
+        box-shadow: 4px 4px 10px #8b8a8a;
+    }
+    .infor-order{
+        position: relative;
+        padding: 12px 0;
+        margin-top: 30px;
+        width: 35%;
+        max-height: 84%;
+        border-radius: 10px;
+        box-shadow: 2px 3px 10px #838181;
+        background-color: rgba(170, 170, 170, 0.856);
+    }
+
+    .header-oder{
+        padding-left: 12px;
+        border-radius: 10px;
+        background-color: #fff;
+        margin: 0 8px;
+        display: grid;
+        grid-template-columns: 50% 25% 25%;
+        text-align: left;
+        color: rgb(100, 12, 12);
+    }
+
+    .header-oder p{
+        font-size: 18px;
+    }
+
+    .number-oder {
+        display: flex;
+    }
+
+    .number-oder select{
+        margin-left: 8px;
+        padding: 0 12px;
+        border: none;
+        color: #000;
+        background: none;
+        border-bottom: 1px solid #000;
+        font-size: 16px;
+        height: 30px;
+        margin-top: 12px;
+    }
+
+    .main-order {
+        margin: 8px;
+        width: auto;
+        border-collapse: collapse;
+        max-height: 300px; /* Đặt chiều cao tối đa cho bảng */
+        overflow: auto;
+    }
+
+    .main-order::-webkit-scrollbar-thumb{
+        background: #00000069;
+        border-radius: 10px;
+    }
+
+    .main-order::-webkit-scrollbar{
+        width: 5px;
+    }
+
+    .main-order::-webkit-scrollbar-track{
+        border-radius: 10px;
+        border: 1px solid #ccc;
+    }
+
+    .main-order table{
+        width: 100%;
+    }
+
+    .main-order th {
+        border-radius: 5px;
+        border-bottom: 1px solid black;
+        padding: 8px 0;
+        text-align: center;
+
+    }
+
+    .main-order td {
+        text-shadow: 3px 4px 5px #000;
+        color: #fff;
+        font-size: 14px;
+        text-align: center;
+        border-bottom: 1px solid black;
+
+    }
+
+    .main-order i{
+        text-shadow: 0px 0px 0px #000;
+        color: #000;
+        box-shadow: none;
+    }
+
+    .main-order th {
+        background-color: rgba(243, 243, 243, 0.493);
+    }
+
+    .main-order th:nth-child(1) {
+        width: 60%; /* Độ rộng mặc định cho cột "Tên món" */
+    }
+
+    .main-order th:nth-child(2), .main-order th:nth-child(3) {
+        width: 20%; /* Độ rộng mặc định cho cột "SL" và cột "Giá" */
+    }
+
+    .main-order .remove-button{
+        cursor: pointer;
+    }
+
+
+    .main-order .footer-order{
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        
+    }
+
+    .main-order .total-order{
+        display: flex;
+        flex-direction: row;
+        text-align: center;
+    }
+
+    .main-order .total-order h4 +h4{
+        
+        margin-left: 40px;
+    }
+
+
+    .operation{
+        display: flex;
+        justify-content: space-around;
+        margin-bottom: 18px;
+    }
+
+    .operation button{
+        border-radius: 5px;
+        box-shadow: 4px 3px 8px #000;
+        padding: 8px 18px;
+        border: none;
+        color: #fff;
+        background-color: #a7815e;
+        cursor: pointer;
+    }
+    .ordered{
+        background-color: rgb(202, 66, 66);
+    }
+    .no-order{
+        background-color: #57c999;
+    }
+</style>
+<div class="home-oder">   
+    <ul data-foods="{{foods}}" class="list-table">
+        {{#each tables}}
+            <li
+            {{#if this.status}}
+                class="ordered"
+            {{else}}
+                class="no-order"
+            {{/if}}
+            >
+                <h3>
+                        {{this.name}}
+                </h3>
+                <button class="show-food" data-name="{{this.name}}" data-table="{{this._id}}">Show Food</button>
+            </li>
+        {{/each}}
+    </ul>
+    <div class="infor-order">
+            <div class="header-oder">
+                <p>Thông tin đặt món:</p>
+                <h4 class="name-table">Bàn...</h4>
+            </div>
+            <div class="main-order">
+                <table>
+                    <tr>
+                        <th>Tên món</th>
+                        <th>SL</th>
+                        <th>Giá</th>
+                    </tr>
+                     <tbody id="food-list">
+                    </tbody>
+                </table>
+                <div class="footer-order">
+                    <div class="total-order">
+                        <h4 style="width: 50%;">Tổng cộng: </h4>
+                        <h4 style="width: 50%;" class="total-price">0 VND</h4>
+                    </div>
+                    <div class="operation">
+                        <button class="print-bill">In hóa đơn</button>
+                        <button  class="payment">Thanh toán và in hóa đơn</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <form id="form-save-history" action="/manager-table/clear-table" method="POST">
+            <input type="hidden" name="tableId" id="tableId">
+        </form>
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const foodsData = document.querySelector('.list-table').dataset.foods
+        const foods = JSON.parse(foodsData)
+        console.log(foods)
+        const btnShows = document.querySelectorAll('.show-food')
+        const foodList = document.querySelector('#food-list')
+        const totalPrice = document.querySelector('.total-price')
+        const payMentAndPrint = document.querySelector('.payment')
+        const formSaveHistory = document.querySelector('#form-save-history')
+        const inputSaveHistory = document.querySelector('#form-save-history #tableId')
+
+        btnShows.forEach(btnShow =>{
+             btnShow.addEventListener('click',(e)=>{
+                const tableId = e.target.dataset.table
+                const nameTable = e.target.dataset.name
+
+                const nameTableClass = document.querySelector('.name-table')
+                nameTableClass.innerHTML = 'Bàn ' + nameTable
+
+                foodList.innerHTML= `  
+                                       
+                `                
+                foods.map((food)=>{ 
+                    if(food.table == tableId ){
+                        const newRow = document.createElement('tr');
+                        newRow.innerHTML = `
+                            <td>${food.food.name}</td>
+                            <td>1</td>
+                            <td>${food.food.price}đ</td>
+                        `
+                        foodList.appendChild(newRow)
+                    }
+                })
+
+                const hasFoodItems = foods.some((food) => food.table == tableId);
+
+                if (!hasFoodItems) {
+                    const newRow = document.createElement('tr');
+                    newRow.innerHTML = `
+                        <td colspan="3"><h3>Bàn trống</h3></td>
+                    `;
+                    foodList.appendChild(newRow);
+                }
+
+
+                const total = document.querySelectorAll('tbody td:nth-child(3)');
+                console.log(total)
+                let billPay = 0
+                total.forEach(item =>{
+                    const price = parseInt((item.textContent).replace("đ", "") *1000)
+                    console.log(price)
+                    billPay += price
+                })
+                var formattedBillPay = billPay.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+
+                totalPrice.innerHTML = formattedBillPay; // Sẽ hiển thị '1.000 VND'
+
+                inputSaveHistory.value = tableId // lấy id bàn cần xóa điền vào form
+                payMentAndPrint.addEventListener('click',()=>{
+                    console.log(billPay)
+                    if(billPay){
+                        formSaveHistory.submit()
+                    }
+                    else{
+                        alert("Bàn trống")
+                    }
+                })
+                
+            })
+
+        })
+
+    });
+
+</script>
