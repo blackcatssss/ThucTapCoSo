@@ -1,11 +1,13 @@
 
 const Product = require('../models/Product')
+const User = require('../models/User')
 const Table = require('../models/Table')
 // const HistoryOrder = require('../../models/historyOrder')
 const FoodOrdered = require('../models/foodOrdered')
 const mongoose = require('mongoose');
 const ObjectId = mongoose.Types.ObjectId; // Import ObjectId từ mongoose
 const {mutipleMongooseToObject} = require('../../util/mongoose')
+const jwt = require('jsonwebtoken');
 
 class HomeController{
   index(req, res, next) {
@@ -25,45 +27,55 @@ class HomeController{
   }
   
     
-  saveOrder(req, res, next) {
-    const tableName = req.body.tableId;
-    const foodIdsString = req.body.foodIds;
-    const foodIdsArray = JSON.parse(foodIdsString).map(id => new ObjectId(id));
-    var nameFoods = [];
-  
-    Table.findByIdAndUpdate(
-      { _id: tableName },
-      {
-        status: true,
-      },
-      { upsert: true }
-    )
-      .then(async table => {
-        const productPromises = foodIdsArray.map(element =>
-          Product.findById({ _id: element })
-            .then(product => {
-              return product.name;
-            })
-            .catch(err => next(err))
-        );
-  
-        nameFoods = await Promise.all(productPromises);
+  async saveOrder(req, res, next) {
+      const tableName = req.body.tableId;
+      const foodIdsString = req.body.foodIds;
+      const foodIdsArray = JSON.parse(foodIdsString).map(id => new ObjectId(id));
+      var nameFoods = [];
 
-        const foodOrderedPromises = foodIdsArray.map(async foodId => {
-          return FoodOrdered.create({
-            food: foodId,
-            table: table._id,
+      try {
+          const table = await Table.findByIdAndUpdate(
+              { _id: tableName },
+              {
+                  status: true,
+              },
+              { upsert: true }
+          );
+
+          const productPromises = foodIdsArray.map(element =>
+              Product.findById({ _id: element })
+                  .then(product => {
+                      return product.name;
+                  })
+                  .catch(err => next(err))
+          );
+
+          nameFoods = await Promise.all(productPromises);
+
+          const accessToken = req.cookies.accessToken;
+
+          const decodedToken = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET);
+          console.log(decodedToken)
+          const userId = decodedToken.id;
+
+          const foodOrderedPromises = foodIdsArray.map(async foodId => {
+              return FoodOrdered.create({
+                  food: foodId,
+                  table: table._id,
+                  UserCreate: userId,
+              });
           });
-        });
-  
-        await Promise.all(foodOrderedPromises);
-  
-        res.redirect('back');
-      })
-      .catch(next);
+
+          await Promise.all(foodOrderedPromises);
+
+          res.redirect('back');
+      } catch (err) {
+          next(err);
+      }
   }
+
   
-  }
+}
 
 
 module.exports = new HomeController;

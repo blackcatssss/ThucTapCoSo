@@ -1,0 +1,269 @@
+<style>
+    .home-oder {
+        display: flex;
+        position: relative;
+        justify-content: space-between;
+        background-color: rgba(95, 158, 160, 0.692);
+        margin-left: 270px;
+        margin-top: 40px;
+        max-height: 670px;
+        height: 570px;
+        padding: 0;
+        border-radius: 25px;
+        overflow: hidden;
+    }
+
+    .title-table {
+        top: 20px;
+        position: absolute;
+        height: 40px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .history-table {
+        top: 60px;
+        position: absolute;
+        padding: 8px 7.5%;
+        width: 85%;
+        border-collapse: collapse;
+        max-height: 350px;
+        overflow: auto;
+    }
+
+    .view-bill{
+        cursor: pointer;
+    }
+
+    .history-table::-webkit-scrollbar-thumb {
+        background: #00000069;
+        border-radius: 10px;
+    }
+
+    .history-table::-webkit-scrollbar {
+        width: 5px;
+    }
+
+    .history-table::-webkit-scrollbar-track {
+        border-radius: 10px;
+        border: 1px solid #ccc;
+    }
+
+    .history-table table {
+        width: ;
+        border-collapse: separate;
+        border-spacing: 0;
+    }
+
+    .history-table th {
+        background-color: cadetblue;
+        color: #fff;
+        padding: 12px;
+        font-weight: bold;
+        text-align: center;
+    }
+
+    .history-table th:nth-child(1) {
+        width: 20%;
+    }
+
+    .history-table th:nth-child(2) {
+        width: 20%;
+    }
+    .history-table th:nth-child(3) {
+        width: 50%;
+    }
+    .history-table th:nth-child(4) {
+        width: 20%;
+    }
+    
+
+    .history-table td {
+        padding: 10px;
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    .history-table tr {
+        transition: all 0.1s ease-in;
+        background-color: #f3f3f3;
+    }
+
+    .history-table tbody tr.active-row {
+        background-color: #fff;
+        font-weight: bold;
+        color: var(--main-color);
+    }
+
+
+    .history-table tbody tr:last-of-type {
+        border-bottom: 2px solid var(--main-color);
+    }
+
+    .tbody tr{
+        position: relative;
+    }
+
+    .tbody tr a:hover{
+        color: red;
+    }
+
+    .food-view{
+        z-index: 999;
+        position: absolute;
+        display: none;
+        border-radius: 5px;
+        top: 20%;
+        left: 25%;
+        background-color: #fff;
+        box-shadow: 3px 4px 10px #53535393;
+    }
+
+    .food-view ul{
+        padding: 20px 4px;
+        margin: 0;
+    }
+
+    .food-view li{
+        padding: 8px;
+        list-style: none;
+        margin: 0;
+        font-style: italic;
+        text-decoration: underline;
+        min-width: 200px;
+    }
+</style>
+<div>
+    <div class="home-oder">
+        <div>
+            <div class="title-table">
+                <h4>Lịch sử đặt món</h4>
+            </div>
+            <div class="history-table">
+                <table>
+                    <tr>
+                        <th>Hóa đơn</th>
+                        <th>Ca trực</th>
+                        <th>Ngày in hóa đơn</th>
+                        <th>Giá tiền</th>
+                    </tr>
+                    <tbody class="tbody">
+                        {{#if history}}
+                            {{#each history}}
+                                <tr>
+                                    <div class="food-view">
+                                        <ul>
+
+                                        </ul>
+                                    </div>
+                                    <td>{{this.food.name}}</td>
+                                    <td>{{this.UserCreate.time}}</td> <!-- Thay đổi từ {{this.idUser.time}} thành {{this.idUser}} -->
+                                    <td>{{this.updatedAt}}</td>
+                                    <td>{{this.food.price}}</td>
+                                </tr>
+                            {{/each}}
+                        {{else}}
+                            <tr>
+                                <td colspan="4">Trống</td>
+                            </tr>
+                        {{/if}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script>
+    var histories = [];
+
+    // Assuming you have a reference to the table with class 'history-table'
+    const tbody = document.querySelector('.history-table .tbody');
+
+
+    // Assuming you have a reference to the table with class 'history-table'
+    const trTables = document.querySelectorAll('.history-table tbody tr');
+
+    function formatDate(rawDate) {
+        const dateObject = new Date(rawDate);
+        const day = dateObject.getDate();
+        const month = dateObject.getMonth() + 1;
+        const year = dateObject.getFullYear();
+        const hour = dateObject.getHours()
+        const minute = dateObject.getMinutes()
+        const second = dateObject.getSeconds()
+        
+        const formattedDay = day < 10 ? `0${day}` : day;
+        const formattedMonth = month < 10 ? `0${month}` : month;
+
+        return `${formattedDay}/${formattedMonth}/${year} - ${hour}:${minute}:${second}`;
+    }
+
+    trTables.forEach((tr) => {
+        const tdElements = tr.querySelectorAll('td');
+        if (tdElements.length > 0) {
+            const rawDate = tdElements[2].textContent;
+            const formattedDate = formatDate(rawDate);
+            const rawTime = tdElements[1].textContent;
+            console.log(tdElements[3].textContent)
+            var tTime = ''
+            if(rawTime.includes("sang")){
+                tTime = 'Ca sáng'
+            }else{
+                if(rawTime.includes('chieu')){
+                    tTime = 'Ca chiều'
+                }else{
+                    tTime = 'Ca tối'
+                }
+            }
+            const newData = {
+                order: tdElements[0].textContent,
+                time: tTime,
+                updatedAt: formattedDate,
+                bill: tdElements[3].textContent,
+            };
+            histories.push(newData);
+        }
+    });
+    
+    
+
+    tbody.innerHTML =""
+    // Render the table with data from histories
+    histories.forEach((history) => {
+        const newRow = document.createElement('tr');
+        const billAmount = parseFloat(history.bill) * 1000;
+        const formattedBillPay = billAmount.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+        newRow.innerHTML = `
+            <td>${history.order}</td>
+            <td>${history.time}</td>
+            <td>${history.updatedAt}</td>
+            <td>${formattedBillPay}</td>
+        `;
+        tbody.appendChild(newRow);
+    });
+
+    const viewBtns = document.querySelectorAll('td a')
+    const foodView = document.querySelector('.food-view ul')
+
+    const divView = document.querySelector('.food-view')
+
+    viewBtns.forEach(v =>{
+        v.addEventListener('mouseover',(e)=>{
+            divView.style.display = "block"
+            var foods = []
+            foods = e.target.dataset.id.split(',')
+            foods.forEach((f) =>{
+                const newLi = document.createElement('li')
+                newLi.textContent = f
+                foodView.appendChild(newLi)
+            })
+        })
+        v.addEventListener('mouseout', () => {
+            divView.style.display = "none";
+            foodView.innerHTML = '';
+        });
+    })
+</script>
+
+

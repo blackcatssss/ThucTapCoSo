@@ -1,0 +1,141 @@
+<head>
+  <title>Đăng ký tài khoản</title>
+</head>
+<style>
+  /* CSS cho phần container */
+.container-fluid {
+  height: 100%;
+}
+
+/* CSS cho hình ảnh */
+.img-fluid {
+  max-width: 100%;
+  height: auto;
+}
+
+/* CSS cho phần form */
+form {
+  margin-left: 18px;
+}
+
+/* CSS cho các label */
+.form-label {
+  font-weight: bold;
+}
+
+/* CSS cho các input */
+.form-outline {
+  position: relative;
+}
+.form-outline input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ced4da;
+}
+
+/* CSS cho phần lựa chọn */
+select {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ced4da;
+}
+
+/* CSS cho nút Register */
+.btn-primary {
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+}
+
+/* CSS cho phần chứa form */
+.col-md-8 {
+  margin: 45px 0;
+  padding: 30px;
+  backdrop-filter: blur(5px);
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 20px;
+  border: none;
+}
+
+/* CSS cho phần chữ */
+h5 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* CSS cho phần lỗi */
+p {
+  color: red;
+}
+
+/* CSS cho phần chọn thời gian */
+.form-outline.mb-3 {
+  position: relative;
+}
+
+/* CSS cho nút đăng ký */
+.text-lg-start {
+  float: right;
+  margin-right: 40px;
+}
+
+
+</style>
+<section class="vh-100">
+  <div class="container-fluid h-custom">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-md-9 col-lg-6 col-xl-5">
+        <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
+          class="img-fluid" alt="Sample image">
+      </div>
+      <div style="margin: 45px 0; padding:30px;backdrop-filter: blur(5px); background-color: rgba(255, 255, 255, 0.8); border-radius: 20px; border: none;" class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+        <h5 style="text-align: center;">Đăng ký tài khoản</h5>
+        {{#if errorMessage}}
+                <p style="color: red">{{errorMessage}}</p>
+            {{/if}}
+        <form style="margin-left: 18px;" method="POST" action ="/register">
+            <div class="mt-4">
+
+                 <!-- User input -->
+            
+            <div class="form-outline mb-4">
+            <label class="form-label" >Username</label><br>
+            <input required type="text" id="username" name="username" class=""
+              placeholder="Enter a Username" value="{{user.username}}"/>
+          </div>
+
+          <!-- Password input -->
+          <div class="form-outline mb-3">
+            <label class="form-label">Password</label><br>
+            <input required type="password" id="password" name="password" class=""
+              placeholder="Enter password" />
+          </div>
+          <div class="form-outline mb-3">
+            <label class="form-label" for="time">Time</label><br>
+            <select id="time" name="time" required>
+                <option value="" disabled selected>Select a time</option>
+                <option value="sang">Sáng</option>
+                <option value="chieu">Chiều</option>
+                <option value="toi">Tối</option>
+            </select>
+          </div>
+          <div class=" text-lg-start mt-3 pt-2" style="float: right; margin-right: 40px">
+            <button  type="submit" class="btn btn-primary"
+              style="margin-top: 20px; border-radius: 20px;">Register</button>
+          </div>
+
+            </div>
+         
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+

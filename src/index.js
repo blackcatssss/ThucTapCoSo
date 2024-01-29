@@ -7,13 +7,16 @@ const path = require('path');
 const methodOverrive = require('method-override');
 const db = require('./config/db');
 const route = require('./routes');
-// const cookieParser = require('cookie-parser');
+const cookieParser = require('cookie-parser');
 const dotenv = require('dotenv');
 const port = 3000;
 
 db.connect();
 
 dotenv.config();
+
+app.use(methodOverrive('_method'));
+app.use(cookieParser());
 
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -29,5 +32,4 @@ app.engine('hbs', handlebars.engine({
 }));
 
 route(app);
-//port
 app.listen(port,()=>console.log(`app listening at http://localhost:${port}`))

@@ -1,0 +1,107 @@
+<head>
+  <title>Đăng nhập</title>
+  <style>
+    .h-custom {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .modal-content-login {
+      backdrop-filter: blur(5px);
+      background-color: rgba(255, 255, 255, 0.8);
+      border-radius: 20px;
+      border: none;
+      padding: 30px;
+      text-align: center;
+      width: 300px;
+      border: 1px #000 solid;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    img {
+      height: 70px;
+      margin-bottom: 20px;
+    }
+
+    label {
+      margin-top: 10px;
+      text-align: left;
+    }
+
+    input {
+      padding: 10px;
+      margin-bottom: 20px;
+      border-radius: 5px;
+      border: 1px solid #ced4da;
+    }
+
+    a {
+      float: right;
+      font-size: 11px;
+      text-decoration: none;
+      color: #007bff;
+      margin-top: 10px;
+    }
+
+    button {
+      padding: 6px 20px;
+      border-radius: 5px;
+      border: none;
+      background-color: #007bff;
+      color: #fff;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    p {
+      margin-top: 10px;
+    }
+
+    p.error-message {
+      color: red;
+    }
+
+    p.register-link {
+      margin-top: 20px;
+    }
+
+    a.register-link {
+      text-decoration: none;
+      color: #007bff;
+    }
+  </style>
+</head>
+<section class="h-custom">
+    <div class="container">
+        <div class="row d-flex justify-content-center align-items-center">
+            <div class="modal-content-login">
+              <h3>Đăng nhập</h3>
+                <form method="POST" action="/login">
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" name="username" placeholder="Enter a Username" value="{{user.username}}" required>
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" placeholder="Enter password" required>
+                    <a href="/forgotPassword">Forgot password?</a>
+                    <div>
+                        <button type="submit">Login</button>
+                        {{#if errorMessage}}
+                        <p class="error-message">{{errorMessage}}</p>
+                        {{/if}}
+                        <p class="register-link">Don't have an account? <a href="/register" class="register-link">Register</a></p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

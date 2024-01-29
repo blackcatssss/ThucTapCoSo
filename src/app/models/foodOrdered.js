@@ -10,6 +10,10 @@ const foodOrdered = new Schema(
             type: Schema.Types.ObjectId,
             ref: 'Table', // Reference to the Table model
         },
+        UserCreate: {
+            type: Schema.Types.ObjectId,
+            ref: 'User'
+        }
     },
     {
         timestamps: true

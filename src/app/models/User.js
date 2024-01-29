@@ -10,16 +10,6 @@ const User = new Schema({
     type: String,
     require: true,
    },
-   email:{
-    type: String,
-    require: true,
-    unique: true,
-   },
-
-   admin:{
-    type: Boolean,
-    default: false,
-   },
    time: {
     type: String,
     require: true,

@@ -30,7 +30,6 @@ class TableController {
             await Table.findByIdAndUpdate({_id : req.body.tableId},{
                 status : false,
             })
-            await FoodOrdered.deleteMany({ table: req.body.tableId });
             res.redirect('back')
         }
         catch(err){
