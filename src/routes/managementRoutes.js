@@ -37,8 +37,8 @@ const upload = multer({
 router.post('/table-create',managerMenuControllers.createNewTable);
 router.post('/create-product', upload.single('img'), managerMenuControllers.createProduct);  
 router.post('/:id',managerMenuControllers.deleteProduct);
-router.post('/table/:id',managerMenuControllers.deleteTable);
+router.delete('/table/:id',managerMenuControllers.deleteTable);
 router.post('/table/edit/:id',managerMenuControllers.editTable);
-router.post('/edit/:id', managerMenuControllers.editProduct);
+router.put('/edit/:id', managerMenuControllers.editProduct);
 router.get('/', managerMenuControllers.index);
 module.exports = router

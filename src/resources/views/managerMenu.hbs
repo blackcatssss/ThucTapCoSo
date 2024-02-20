@@ -777,11 +777,10 @@
                     document.body.appendChild(delTableForm);
                     delTableForm.appendChild(submitButton);
 
-                    if(!statusTable){
-                        console.log('ok')
-                        submitButton.click();
-                    }else{
+                    if(statusTable === "true"){
                         showToast("Bàn đang có người ngồi")
+                    }else{
+                        submitButton.click();
                     }
 
                     // Remove the form and the input from the document body after submission
