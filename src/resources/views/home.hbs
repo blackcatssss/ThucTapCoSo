@@ -262,6 +262,7 @@
     <div class="home-oder">
         <ul style="overflow:auto;" class="list-items">
             {{#each products}}
+                {{#unless this.deleted}}
                 <li class="item">
                     <img src="{{this.codeImg}}" alt="">
                     <div class="decrip">
@@ -270,6 +271,7 @@
                         <button data-id="{{this._id}}" class="order-button">Đặt</button>
                     </div>
                 </li>
+                {{/unless}}
             {{/each}}
         </ul>
         <div class="list-oder">

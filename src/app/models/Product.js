@@ -13,6 +13,11 @@ const Product = new Schema(
         codeImg:{
             type: String,
             required: true
+        },
+        deleted:{
+            type: Boolean,
+            required: true,
+            default: false
         }
     },
     {
