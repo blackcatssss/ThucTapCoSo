@@ -61,26 +61,8 @@ class ManagerMenuControllers{
         try {
             // Tìm Product để lấy tên ảnh
             const product = await Product.findById(id);
-            if (!product) {
-                return res.status(404).json({ message: 'Product not found' });
-            }
-    
-            // Xóa ảnh từ thư mục src/public/assets
-            const imagePath = path.join(__dirname, '../../public', product.codeImg);
-            console.log(imagePath)
-            fs.unlink(imagePath, (err) => {
-                if (err) {
-                    console.error('Error deleting image', err);
-                }
-                // Tiếp tục xóa Product sau khi xóa ảnh
-                Product.deleteOne({ _id: id })
-                    .then(() => {
-                        res.redirect('back');
-                    })
-                    .catch((err) => {
-                        next(err);
-                    });
-            });
+            product.deleted = true
+            await product.save()
         } catch (err) {
             next(err);
         }
