@@ -341,14 +341,16 @@
             </div>
             <ul style="overflow:auto;" class="list-items">
                 {{#each products}}
-                    <li class="item">
-                        <img src="{{this.codeImg}}" alt="">
-                        <div class="decrip">
-                            <h4>{{this.name}}</h4>
-                            <p>{{this.price}} đ</p>
-                            <button data-id="{{this._id}}" data-name="{{this.name}}" data-price="{{this.price}}" class="edit-button">Sửa</button>
-                        </div>
-                    </li>
+                    {{#unless this.deleted}}
+                        <li class="item">
+                            <img src="{{this.codeImg}}" alt="">
+                            <div class="decrip">
+                                <h4>{{this.name}}</h4>
+                                <p>{{this.price}} đ</p>
+                                <button data-id="{{this._id}}" data-name="{{this.name}}" data-price="{{this.price}}" class="edit-button">Sửa</button>
+                            </div>
+                        </li>
+                    {{/unless}}
                 {{/each}}
             </ul>
         </div>
